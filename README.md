@@ -102,3 +102,14 @@ Dashboard ini dibuat untuk:
 ## 🙌 Kontribusi
 
 Feel free untuk fork, improve, atau kasih feedback untuk pengembangan lebih lanjut 🚀
+
+
+## 📬 Contact
+
+Jika ingin berdiskusi, kolaborasi, atau memberikan feedback:
+
+- 👤 **Faizal Rizqi Kholily**
+- 💼 LinkedIn: https://www.linkedin.com/in/faizalrizqikholily/
+- 📧 Email: faizalrizqi@email.com
+
+Terbuka untuk peluang kerja, freelance, maupun project kolaborasi 🚀
