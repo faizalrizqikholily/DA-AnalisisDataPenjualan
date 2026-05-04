@@ -124,6 +124,6 @@ Jika ingin berdiskusi, kolaborasi, atau memberikan feedback:
 
 - 👤 **Faizal Rizqi Kholily**
 - 💼 LinkedIn: https://www.linkedin.com/in/faizalrizqikholily/
-- 📧 Email: faizalrizqi@gmail.com
+- 📧 Email: faizalrzqkh@gmail.com
 
 Terbuka untuk peluang kerja, freelance, maupun project kolaborasi 🚀
