@@ -74,3 +74,20 @@ def create_monthly_comparison_chart(df, target_col, title_label):
     )
     
     return fig
+
+def create_yearly_comparison_chart(df, target_col, title_label):
+    df_yearly = df.groupby(['produk', 'tahun'])[target_col].sum().reset_index()
+
+    df_yearly['tahun'] = df_yearly['tahun'].astype(str)
+    df_yearly = df_yearly.sort_values('tahun')
+
+    fig = px.bar(df_yearly, x='tahun', y=target_col, color='produk',
+                 barmode='group', title=f"Komparasi {title_label} per Tahun",
+                 text_auto='.2s' if target_col == 'total_pendapatan' else 'd')
+    
+    fig.update_layout(
+        xaxis=dict(categoryorder='category ascending'),
+        xaxis_title="Tahun"
+    )
+    
+    return fig

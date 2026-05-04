@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from data_cleaning import clean_process
 from eda_analysis import run_analysis
-from data_viz import create_plots, create_trend_chart, create_monthly_comparison_chart
+from data_viz import create_plots, create_trend_chart, create_monthly_comparison_chart, create_yearly_comparison_chart
 
 # Helper functions untuk tampilan
 def format_rp(val):
@@ -178,7 +178,42 @@ def main():
                     pivot_qty.style.format("{:,.0f}"), 
                     use_container_width=True
                 )
+                st.markdown("---")
+            st.subheader("📆 Komparasi Tahunan")
+            
+            tab_y1, tab_y2 = st.tabs(["💰 Omzet", "📦 Volume"])
+            
+            with tab_y1:
+                st.plotly_chart(create_yearly_comparison_chart(df_final, 'total_pendapatan', 'Omzet (Rp)'), use_container_width=True)
+                st.write("**Rekapitulasi Omzet Tahunan per Komoditas:**")
+                
+                # Buat pivot tabel berdasarkan tahun
+                pivot_y_omzet = df_final.pivot_table(index='produk', columns='tahun', values='total_pendapatan', aggfunc='sum').fillna(0)
+                
+                # Tambahkan total keseluruhan
+                pivot_y_omzet['Total Keseluruhan'] = pivot_y_omzet.sum(axis=1)
+                pivot_y_omzet = pivot_y_omzet.sort_values('Total Keseluruhan', ascending=False)
+                
+                st.dataframe(
+                    pivot_y_omzet.style.format(format_rp), 
+                    use_container_width=True
+                )
 
+            with tab_y2:
+                st.plotly_chart(create_yearly_comparison_chart(df_final, 'jumlah', 'Volume (Pcs)'), use_container_width=True)
+                st.write("**Rekapitulasi Volume Tahunan per Komoditas:**")
+                
+                # Buat pivot tabel berdasarkan tahun
+                pivot_y_qty = df_final.pivot_table(index='produk', columns='tahun', values='jumlah', aggfunc='sum').fillna(0)
+                
+                # Tambahkan total keseluruhan
+                pivot_y_qty['Total Keseluruhan'] = pivot_y_qty.sum(axis=1)
+                pivot_y_qty = pivot_y_qty.sort_values('Total Keseluruhan', ascending=False)
+                
+                st.dataframe(
+                    pivot_y_qty.style.format("{:,.0f}"), 
+                    use_container_width=True
+                )
         else:
             st.warning("Data tidak tersedia untuk filter yang dipilih.")
     else:
