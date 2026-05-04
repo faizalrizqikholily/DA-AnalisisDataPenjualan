@@ -2,7 +2,6 @@ import plotly.express as px
 import pandas as pd
 
 def create_trend_chart(df):
-    # TAMBAHAN KECIL: Pastikan tipe data tanggal adalah datetime dan diurutkan agar grafiknya tidak zigzag
     df['tanggal'] = pd.to_datetime(df['tanggal'])
     df = df.sort_values('tanggal')
     
@@ -17,7 +16,7 @@ def create_trend_chart(df):
     # Desain garis dan area
     fig.update_traces(line_color='#007BFF', fillcolor='rgba(0, 123, 255, 0.1)')
 
-    # Menambahkan Slider dan Tombol Navigasi Waktu agar fleksibel jika data banyak
+    # Slider dan Tombol Navigasi Waktu agar fleksibel jika data banyak
     fig.update_xaxes(
         rangeslider_visible=True,
         rangeselector=dict(
@@ -46,45 +45,32 @@ def create_plots(df_produk, df_kategori):
     return fig_produk, fig_pie
 
 def create_monthly_comparison_chart(df, target_col, title_label):
-    # ================= TAMBAHAN LOGIKA TAHUN =================
-    # Kita ambil "Tahun" dari kolom 'tanggal' agar bisa dipisahkan (misal Jan 2023 vs Jan 2024)
     if 'tanggal' in df.columns:
         df['tanggal'] = pd.to_datetime(df['tanggal'])
         df['tahun'] = df['tanggal'].dt.year
     else:
-        df['tahun'] = "" # Fallback aman jika kolom tanggal tidak ada
+        df['tahun'] = ""
 
-    # Tambahkan 'tahun' ke dalam groupby agar data di tahun berbeda tidak tertumpuk/dijumlahkan
     df_monthly = df.groupby(['produk', 'tahun', 'bulan_nama'])[target_col].sum().reset_index()
-    # =========================================================
 
-    # KODE ASLIMU: Tetap ada, tidak dikurangi untuk mempertahankan fungsi urutan bulannya
     months_order = ['January', 'February', 'March', 'April', 'May', 'June', 
                     'July', 'August', 'September', 'October', 'November', 'December']
     df_monthly['bulan_nama'] = pd.Categorical(df_monthly['bulan_nama'], categories=months_order, ordered=True)
     
-    # ================= TAMBAHAN PENGURUTAN =================
-    # Urutkan berdasarkan Tahun dulu, baru Bulan (memastikan selalu urut dari Jan -> Des di setiap Tahun)
     df_monthly = df_monthly.sort_values(['tahun', 'bulan_nama'])
-
-    # Buat label untuk Sumbu X (Contoh: "January 2023", "February 2023", dst.)
     if df['tahun'].iloc[0] != "":
         df_monthly['periode'] = df_monthly['bulan_nama'].astype(str) + " " + df_monthly['tahun'].astype(str)
     else:
         df_monthly['periode'] = df_monthly['bulan_nama']
-    # =======================================================
 
-    # Plotting bar chart (x diubah menggunakan 'periode' yang baru dibuat)
+    # Plotting bar chart
     fig = px.bar(df_monthly, x='periode', y=target_col, color='produk',
                  barmode='group', title=f"Komparasi {title_label} per Bulan",
                  text_auto='.2s' if target_col == 'total_pendapatan' else 'd')
     
-    # ================= TAMBAHAN PENYESUAIAN PLOTLY =================
-    # Memaksa Plotly mengikuti urutan dataframe yang sudah disortir (tidak mengurutkan secara alfabetis)
     fig.update_layout(
         xaxis=dict(categoryorder='array', categoryarray=df_monthly['periode'].unique()),
         xaxis_title="Bulan & Tahun"
     )
-    # ===============================================================
     
     return fig
