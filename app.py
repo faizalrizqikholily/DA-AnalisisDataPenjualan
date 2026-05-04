@@ -16,8 +16,7 @@ def main():
     st.title("🏦 Dashboard Analisis Penjualan")
     st.markdown("---")
 
-    # ================= TAMBAHAN FITUR TEMPLATE =================
-    # Membuat data dummy untuk template yang bisa didownload
+    # ================= FITUR TEMPLATE =================
     template_data = pd.DataFrame({
         'tanggal': ['2024-01-01', '2024-01-02'],
         'produk': ['Ayam Goreng', 'Es Teh'],
@@ -36,7 +35,6 @@ def main():
         mime="text/csv",
     )
     st.sidebar.markdown("---")
-    # ==========================================================
 
     uploaded_file = st.sidebar.file_uploader("📂 Unggah File CSV", type="csv")
 
@@ -60,7 +58,7 @@ def main():
         sel_thn = st.sidebar.multiselect("Pilih Tahun", list_thn, default=list_thn)
         df_f1 = df_clean[df_clean['tahun'].isin(sel_thn)]
 
-        # 2. Bulan (Diurutkan secara kronologis Jan-Des)
+        # 2. Bulan
         list_bln_raw = df_f1['bulan_nama'].unique().tolist()
         list_bln = [m for m in months_order if m in list_bln_raw]
         sel_bln = st.sidebar.multiselect("Pilih Bulan", list_bln, default=list_bln)
@@ -184,9 +182,7 @@ def main():
         else:
             st.warning("Data tidak tersedia untuk filter yang dipilih.")
     else:
-        # ================= TAMBAHAN PESAN INFO =================
         st.info("👋 **Selamat Datang!** \n\nSilakan unggah file CSV data penjualan Anda di panel sebelah kiri (sidebar). Pastikan format dan nama kolom pada file Anda sesuai dengan **Template CSV** yang dapat diunduh di sidebar agar dashboard dapat berfungsi dengan baik.")
-        # =======================================================
 
 if __name__ == "__main__":
     main()
