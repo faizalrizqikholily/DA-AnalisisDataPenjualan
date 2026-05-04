@@ -9,6 +9,20 @@ Sebuah aplikasi web interaktif berbasis **Streamlit** untuk memantau, menganalis
 
 ---
 
+## 🔗 Live Demo
+
+- 🚀 **Akses Dashboard:**  
+  https://fxghkrpx8trremxkmbeuau.streamlit.app/
+
+- 🧪 **Generate Data Dummy (CSV):**  
+  https://generate-data-belajar-da-9ybp4njxabdmqtra27bkks.streamlit.app/
+
+💡 Gunakan data dummy jika belum memiliki dataset sendiri, lalu upload ke dashboard untuk mencoba semua fitur.
+
+---
+
+---
+
 ## ✨ Fitur Utama
 
 - 📁 **Unggah Data Otomatis**  
